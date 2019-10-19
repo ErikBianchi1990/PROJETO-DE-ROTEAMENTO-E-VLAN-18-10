@@ -1,0 +1,58 @@
+enable
+configure terminal
+hostname SW-CORE-11
+banner motd "Somente Pessoal Autorizado do TI"
+enable secret SenhadaEnable
+service password-encryption
+ip domain-name Rede1.Local
+crypto key generate rsa general-key modulus 1024
+username ThomazZanotti privilege 15 secret Batata01
+username JoaoVitor privilege 15 secret Batata01
+username ViniciusRamos privilege 15 secret Batata01
+username ErikBianchi privilege 15 secret Batata01
+line console 0
+password SenhadaConsole
+login local
+exit
+line vty 0 15
+transport input ssh
+login local
+exec-timeout 5
+exit
+ip ftp username ErikBianchi
+ip ftp password erikftp
+vlan 10
+name VLAN-10
+vlan 20
+name VLAN-20
+vlan 99
+name NATIVA
+vlan 100
+name EQUIPAMENTOS
+exit
+interface gigabitEthernet 0/1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,99,100
+switchport trunk native vlan 99
+exit
+interface gigabitEthernet 1/1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,99,100
+switchport trunk native vlan 99
+exit
+interface gigabitEthernet 2/1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,99,100
+switchport trunk native vlan 99
+exit
+interface fastEthernet 3/1
+switchport mode access
+switchport access vlan 100
+exit
+interface vlan 100
+description GERENCIAMENTO REDE 1
+ip address 172.16.1.142 255.255.255.240
+exit
+ip default-gateway 172.16.1.129
+do wr
+

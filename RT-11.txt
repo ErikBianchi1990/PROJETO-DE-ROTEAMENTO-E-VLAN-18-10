@@ -1,0 +1,54 @@
+enable
+configure terminal
+hostname RT-11
+banner motd "Somente Pessoal Autorizado"
+enable secret SenhadaEnable
+service password-encryption
+ip domain-name Rede1.Local
+crypto key generate rsa general-key modulus 1024
+username ThomazZanotti privilege 15 secret Batata01
+username JoaoVitor privilege 15 secret Batata01
+username ViniciusRamos privilege 15 secret Batata01
+username ErikBianchi privilege 15 secret Batata01
+login block-for 240 attempts 7 within 600
+security passwords min-length 8
+line console 0
+password SenhadaConsole
+login local
+exit
+line vty 0 15
+transport input ssh
+login local
+exec-timeout 5
+exit
+ip ftp username ErikBianchi
+ip ftp password erikftp
+interface gigabitEthernet 0/0
+no shutdown
+exit
+interface gigabitEthernet 0/0.10
+encapsulation dot1Q 10
+ip address 172.16.1.1 255.255.255.128
+description VLAN 10
+exit
+interface gigabitEthernet 0/0.20
+encapsulation dot1Q 20
+ip address 172.16.0.1 255.255.255.0
+description VLAN 20
+exit
+interface gigabitEthernet 0/0.100
+encapsulation dot1Q 100
+ip address 172.16.1.129 255.255.255.240
+description VLAN 100 EQUIPAMENTOS
+exit
+interface serial 0/0/0
+description REDE WAN 1
+ip address 200.18.189.2 255.255.255.252
+exit
+ip route 172.16.2.64 255.255.255.192 200.18.189.1
+ip route 172.16.2.0 255.255.255.192 200.18.189.1
+ip route 172.16.2.128 255.255.255.224 200.18.189.1
+ip route 172.16.2.160 255.255.255.224 200.18.189.1
+do wr
+
+

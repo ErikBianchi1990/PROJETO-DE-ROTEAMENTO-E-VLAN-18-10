@@ -1,0 +1,65 @@
+enable
+configure terminal
+hostname SW-INTERMEDIARIO-21
+banner motd "Somente Pessoal Autorizado do TI"
+enable secret SenhadaEnable
+service password-encryption
+ip domain-name Rede2.Local
+crypto key generate rsa general-key modulus 1024
+username ThomazZanotti privilege 15 secret Batata01
+username JoaoVitor privilege 15 secret Batata01
+username ViniciusRamos privilege 15 secret Batata01
+username ErikBianchi privilege 15 secret Batata01
+line console 0
+password SenhadaConsole
+login local
+exit
+line vty 0 15
+transport input ssh
+login local
+exec-timeout 5
+exit
+ip ftp username ErikBianchi
+ip ftp password erikftp
+vlan 10
+name VLAN-10
+vlan 20
+name VLAN-20
+vlan 30
+name VLAN-30
+vlan 99
+name NATIVA
+vlan 100
+name EQUIPAMENTOS
+exit
+interface gigabitEthernet 3/1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99,100
+switchport trunk native vlan 99
+exit
+interface gigabitEthernet 0/1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99,100
+switchport trunk native vlan 99
+exit
+interface gigabitEthernet 1/1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99,100
+switchport trunk native vlan 99
+exit
+interface gigabitEthernet 2/1
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,99,100
+switchport trunk native vlan 99
+exit
+interface fastEthernet 4/1
+switchport mode access
+switchport access vlan 100
+exit
+interface vlan 100
+description GERENCIAMENTO REDE 2
+ip address 172.16.2.189 255.255.255.224
+exit
+ip default-gateway 172.16.2.161
+do wr
+
