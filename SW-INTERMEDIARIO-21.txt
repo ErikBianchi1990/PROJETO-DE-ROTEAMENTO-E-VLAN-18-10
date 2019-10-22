@@ -58,7 +58,7 @@ switchport access vlan 100
 exit
 interface vlan 100
 description GERENCIAMENTO REDE 2
-ip address 172.16.2.189 255.255.255.224
+ip address 172.16.2.187 255.255.255.224
 exit
 ip default-gateway 172.16.2.161
 do wr
