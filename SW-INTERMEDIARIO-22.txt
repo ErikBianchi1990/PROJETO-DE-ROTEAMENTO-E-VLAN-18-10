@@ -54,7 +54,7 @@ switchport trunk native vlan 99
 exit
 interface vlan 100
 description GERENCIAMENTO REDE 2
-ip address 172.16.2.188 255.255.255.224
+ip address 172.16.2.186 255.255.255.224
 exit
 ip default-gateway 172.16.2.161
 do wr
